@@ -1,0 +1,54 @@
+OSSIM: scheduler=FIFO, eviction=LRU, vpages=8, pframes=5, threshold=1
+Scheduler server listening on /tmp/scheduler.sock...
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=0
+[TRACE] ACCESS pid=P vpn=2 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=1
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=2
+[TRACE] ACCESS pid=P vpn=4 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=3
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> HIT  (pfn=0)
+[TRACE] ACCESS pid=P vpn=2 (leitura)
+[TRACE]   -> HIT  (pfn=1)
+[TRACE] ACCESS pid=P vpn=5 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=4
+[TRACE] ACCESS pid=P vpn=6 (escrita)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (LRU)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=0   (pid=P vpn=1) last_accessed=31
+[TRACE]       [ 1] pfn=1   (pid=P vpn=2) last_accessed=32
+[TRACE]       [ 2] pfn=2   (pid=P vpn=3) last_accessed=12
+[TRACE]       [ 3] pfn=3   (pid=P vpn=4) last_accessed=13
+[TRACE]       [ 4] pfn=4   (pid=P vpn=5) last_accessed=51
+[TRACE]   LRU: o menor last_accessed e 12 (pfn=2)
+[TRACE]   vitima: pfn=2 (pid=P vpn=3, dirty=1) -> swap-out
+[TRACE]   -> FAULT (pagina nova) -> pfn=2
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (LRU)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=0   (pid=P vpn=1) last_accessed=31
+[TRACE]       [ 1] pfn=1   (pid=P vpn=2) last_accessed=32
+[TRACE]       [ 2] pfn=3   (pid=P vpn=4) last_accessed=13
+[TRACE]       [ 3] pfn=4   (pid=P vpn=5) last_accessed=51
+[TRACE]       [ 4] pfn=2   (pid=P vpn=6) last_accessed=52
+[TRACE]   LRU: o menor last_accessed e 13 (pfn=3)
+[TRACE]   vitima: pfn=3 (pid=P vpn=4, dirty=1) -> swap-out
+[TRACE]   -> HIT  (pfn=0)
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE]   -> FAULT (swap-in) -> pfn=3
+[TRACE] ACCESS pid=P vpn=7 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (LRU)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=0   (pid=P vpn=1) last_accessed=72
+[TRACE]       [ 1] pfn=1   (pid=P vpn=2) last_accessed=32
+[TRACE]       [ 2] pfn=4   (pid=P vpn=5) last_accessed=51
+[TRACE]       [ 3] pfn=2   (pid=P vpn=6) last_accessed=52
+[TRACE]       [ 4] pfn=3   (pid=P vpn=3) last_accessed=73
+[TRACE]   LRU: o menor last_accessed e 32 (pfn=1)
+[TRACE]   vitima: pfn=1 (pid=P vpn=2, dirty=1) -> swap-out
+[TRACE]   -> FAULT (pagina nova) -> pfn=1
+Process 746 terminated: freed 5 pframes from RAM, 3 vpages from swap
+LRU stats: accesses=11 faults=8 swap-in=1 swap-out=3 fault-rate=0.727
+

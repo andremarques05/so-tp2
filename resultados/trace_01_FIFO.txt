@@ -1,0 +1,63 @@
+OSSIM: scheduler=FIFO, eviction=FIFO, vpages=8, pframes=5, threshold=1
+Scheduler server listening on /tmp/scheduler.sock...
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=0
+[TRACE] ACCESS pid=P vpn=2 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=1
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=2
+[TRACE] ACCESS pid=P vpn=4 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=3
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> HIT  (pfn=0)
+[TRACE] ACCESS pid=P vpn=2 (leitura)
+[TRACE]   -> HIT  (pfn=1)
+[TRACE] ACCESS pid=P vpn=5 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=4
+[TRACE] ACCESS pid=P vpn=6 (escrita)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (FIFO)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=0   (pid=P vpn=1)
+[TRACE]       [ 1] pfn=1   (pid=P vpn=2)
+[TRACE]       [ 2] pfn=2   (pid=P vpn=3)
+[TRACE]       [ 3] pfn=3   (pid=P vpn=4)
+[TRACE]       [ 4] pfn=4   (pid=P vpn=5)
+[TRACE]   FIFO: a frame mais antiga e a primeira da lista
+[TRACE]   vitima: pfn=0 (pid=P vpn=1, dirty=1) -> swap-out
+[TRACE]   -> FAULT (pagina nova) -> pfn=0
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (FIFO)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=1   (pid=P vpn=2)
+[TRACE]       [ 1] pfn=2   (pid=P vpn=3)
+[TRACE]       [ 2] pfn=3   (pid=P vpn=4)
+[TRACE]       [ 3] pfn=4   (pid=P vpn=5)
+[TRACE]       [ 4] pfn=0   (pid=P vpn=6)
+[TRACE]   FIFO: a frame mais antiga e a primeira da lista
+[TRACE]   vitima: pfn=1 (pid=P vpn=2, dirty=1) -> swap-out
+[TRACE]   -> FAULT (swap-in) -> pfn=1
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (FIFO)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=2   (pid=P vpn=3)
+[TRACE]       [ 1] pfn=3   (pid=P vpn=4)
+[TRACE]       [ 2] pfn=4   (pid=P vpn=5)
+[TRACE]       [ 3] pfn=0   (pid=P vpn=6)
+[TRACE]       [ 4] pfn=1   (pid=P vpn=1)
+[TRACE]   FIFO: a frame mais antiga e a primeira da lista
+[TRACE]   vitima: pfn=2 (pid=P vpn=3, dirty=1) -> swap-out
+[TRACE]   -> FAULT (swap-in) -> pfn=2
+[TRACE] ACCESS pid=P vpn=7 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (FIFO)
+[TRACE]   frames em RAM (por ordem de chegada):
+[TRACE]       [ 0] pfn=3   (pid=P vpn=4)
+[TRACE]       [ 1] pfn=4   (pid=P vpn=5)
+[TRACE]       [ 2] pfn=0   (pid=P vpn=6)
+[TRACE]       [ 3] pfn=1   (pid=P vpn=1)
+[TRACE]       [ 4] pfn=2   (pid=P vpn=3)
+[TRACE]   FIFO: a frame mais antiga e a primeira da lista
+[TRACE]   vitima: pfn=3 (pid=P vpn=4, dirty=1) -> swap-out
+[TRACE]   -> FAULT (pagina nova) -> pfn=3
+Process 722 terminated: freed 5 pframes from RAM, 4 vpages from swap
+FIFO stats: accesses=11 faults=9 swap-in=2 swap-out=4 fault-rate=0.818
+

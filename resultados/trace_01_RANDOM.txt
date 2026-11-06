@@ -1,0 +1,33 @@
+OSSIM: scheduler=FIFO, eviction=RANDOM, vpages=8, pframes=5, threshold=1
+Scheduler server listening on /tmp/scheduler.sock...
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=0
+[TRACE] ACCESS pid=P vpn=2 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=1
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=2
+[TRACE] ACCESS pid=P vpn=4 (escrita)
+[TRACE]   -> FAULT (pagina nova) -> pfn=3
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE]   -> HIT  (pfn=0)
+[TRACE] ACCESS pid=P vpn=2 (leitura)
+[TRACE]   -> HIT  (pfn=1)
+[TRACE] ACCESS pid=P vpn=5 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=4
+[TRACE] ACCESS pid=P vpn=6 (escrita)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (RANDOM)
+[TRACE]   RANDOM: sorteado o indice 3 de [0..4]
+[TRACE]   vitima: pfn=3 (pid=P vpn=4, dirty=1) -> swap-out
+[TRACE]   -> FAULT (pagina nova) -> pfn=3
+[TRACE] ACCESS pid=P vpn=1 (leitura)
+[TRACE] EVICT: frames livres=0 < threshold=1 -> escolher vitima (RANDOM)
+[TRACE]   RANDOM: sorteado o indice 1 de [0..4]
+[TRACE]   vitima: pfn=1 (pid=P vpn=2, dirty=1) -> swap-out
+[TRACE]   -> HIT  (pfn=0)
+[TRACE] ACCESS pid=P vpn=3 (leitura)
+[TRACE]   -> HIT  (pfn=2)
+[TRACE] ACCESS pid=P vpn=7 (leitura)
+[TRACE]   -> FAULT (pagina nova) -> pfn=1
+Process 734 terminated: freed 5 pframes from RAM, 2 vpages from swap
+RANDOM stats: accesses=11 faults=7 swap-in=0 swap-out=2 fault-rate=0.636
+
